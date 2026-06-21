@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
     private val adb by lazy { AdbWireless(this, adbPath()) }
     @Volatile private var wireStatus = "parado"  // estado del paso de vinculación
     private var serviceOn = false                // el puente corre en el servicio
+    private val LOOPBACK_PORT = 5555
+    private val LOOPBACK_ADDR = "127.0.0.1:5555" // dirección diaria (sin WiFi)
 
     // --- shizuku ---
     private var userService: IUserService? = null
@@ -148,17 +150,33 @@ class MainActivity : AppCompatActivity() {
         startBridgeService(connAddr)
     }
 
-    /** Primera vez: vincular (con código) y, si va, arrancar el servicio. */
+    /** Primera vez: vincular (con código, con WiFi) y dejar el modo SIN-WiFi listo. */
     private fun pairThenStart(connAddr: String, pairAddr: String, code: String) {
         if (code.length < 6) { toast("Escribe el código de 6 dígitos del recuadro"); return }
         val pairHp = parseAddr(pairAddr) ?: run { toast("Escribe la IP:puerto de emparejamiento"); return }
-        if (parseAddr(connAddr) == null) { toast("Escribe la IP:puerto de conexión"); return }
+        val connHp = parseAddr(connAddr) ?: run { toast("Escribe la IP:puerto de conexión"); return }
         wireStatus = "vinculando…"
         Thread {
             adb.startServer()
             if (!adb.pair(pairHp, code)) { ui.post { wireStatus = "código/IP incorrectos o caducados (¿recuadro cerrado?)" }; return@Thread }
             prefs.edit().putBoolean("paired", true).apply()
-            ui.post { wireStatus = "vinculado ✓"; startBridgeService(connAddr) }
+            ui.post { wireStatus = "vinculado ✓, conectando…" }
+            if (!adb.connect(connHp)) { ui.post { wireStatus = "vinculado, pero no conecta a ${connHp.host}:${connHp.port}" }; return@Thread }
+            // Habilita TCP en todas las interfaces → loopback funciona SIN WiFi.
+            ui.post { wireStatus = "preparando modo sin-WiFi…" }
+            if (adb.tcpip(connHp, LOOPBACK_PORT)) {
+                Thread.sleep(2500) // adbd reinicia
+                val loop = AdbWireless.HostPort("127.0.0.1", LOOPBACK_PORT)
+                adb.connect(loop)
+                ui.post {
+                    b.edtConnAddr.setText(LOOPBACK_ADDR); savePrefs()
+                    wireStatus = "listo (funciona sin WiFi)"
+                    startBridgeService(LOOPBACK_ADDR)
+                }
+            } else {
+                // Sin tcpip: arranca con la conexión WiFi normal (necesitará WiFi).
+                ui.post { startBridgeService(connAddr) }
+            }
         }.start()
     }
 

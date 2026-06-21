@@ -29,6 +29,9 @@ que quieras (por ejemplo, **abrir un addon directamente**).
 - 🔓 **Sin root**: usa la **depuración inalámbrica** del propio móvil (estilo
   [LADB](https://github.com/tytydraco/LADB)) embebida en la app. Vinculas una vez y
   luego es **Iniciar / Parar**.
+- 📶 **Funciona con datos móviles, sin WiFi**: al vincular (una vez, con WiFi) la app
+  pone el `adbd` a escuchar en `127.0.0.1` (`adb tcpip`), así el puente conecta por
+  *loopback* y luego **no necesita ninguna WiFi**.
 - 🔔 **Servicio en primer plano** con **notificación persistente**: indica si el
   mando está conectado o desconectado y mantiene el puente vivo aunque cierres la
   app; se reconecta solo si la conexión se cae.
