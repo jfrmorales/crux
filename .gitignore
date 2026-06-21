@@ -1,0 +1,15 @@
+# Android build
+app-android/build/
+app-android/app/build/
+app-android/.gradle/
+app-android/local.properties
+app-android/.idea/
+*.iml
+
+# Compilados locales del puente (se generan con docs/BUILD.md)
+native/bridge
+native/prebuilt/
+
+# Temporales
+*.log
+*.tmp
