@@ -38,16 +38,23 @@ propio móvil para obtener los permisos que hacen falta.
      Samsung y Android de serie el recuadro se queda abierto y no hace falta.
 5. El estado debe poner **«vinculado ✓»** y luego **«ACTIVO (cursor oculto)»**.
 
+> **Funciona luego SIN WiFi (datos móviles):** al vincular, la app deja el adbd del
+> móvil escuchando también en `127.0.0.1` y cambia la «IP:puerto de conexión» a
+> **`127.0.0.1:5555`** (fija). Desde ese momento el puente conecta por *loopback*,
+> así que **funciona con datos móviles, sin ninguna WiFi**. (Solo el paso de vincular
+> necesita WiFi una vez.)
+
 ## 5. Uso diario
-- **No hay que volver a vincular.** El emparejamiento se recuerda.
-- Si el puente está parado: abre la app, comprueba la **IP:puerto de conexión** y
-  pulsa **«▶ Iniciar»** (sin código). Para apagarlo, **«■ Parar»**.
+- **No hay que volver a vincular.** El emparejamiento se recuerda y la dirección de
+  conexión queda fija en **`127.0.0.1:5555`**.
+- Si el puente está parado: abre la app y pulsa **«▶ Iniciar»** (sin código, sin
+  WiFi). Para apagarlo, **«■ Parar»**.
 - Si el móvil **se queda siempre encendido**, se queda funcionando solo: el familiar
   no toca nada, solo usa el CheerTok.
 
-> **Tras un reinicio:** la depuración inalámbrica se apaga sola. Vuelve a activarla,
-> copia la **nueva** «IP:puerto de conexión» en la app y pulsa **Iniciar** (no hace
-> falta volver a vincular ni meter código).
+> **Tras un reinicio:** el modo TCP se desactiva. Hay que repetir el paso de
+> **vincular** una vez (con WiFi); luego vuelve a funcionar con datos móviles. Por
+> eso conviene dejar el móvil **siempre encendido**.
 
 ### Abrir Kodi automáticamente (opcional, recomendado)
 Marca **«Abrir Kodi automáticamente al conectar el mando»**. La primera vez te

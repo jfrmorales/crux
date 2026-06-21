@@ -68,6 +68,17 @@ class AdbWireless(private val ctx: Context, private val adbPath: String) {
         return out.contains("connected to")
     }
 
+    /**
+     * Pone el adbd del dispositivo en modo TCP escuchando en TODAS las interfaces
+     * (incluido 127.0.0.1). Así, una vez hecho con WiFi, la app puede conectar por
+     * loopback SIN WiFi (datos móviles). Persiste hasta reiniciar el móvil.
+     */
+    fun tcpip(current: HostPort, port: Int): Boolean {
+        val (_, out) = run("-s", "${current.host}:${current.port}", "tcpip", port.toString(), timeoutMs = 8000)
+        Log.i(TAG, "tcpip -> $out")
+        return out.contains("restarting in TCP mode")
+    }
+
     /** Lanza el puente por la shell remota; Process de larga vida (lee stdout). */
     fun runBridge(hp: HostPort, bridgeCmd: String): Process? = try {
         File("$home/.android").mkdirs()

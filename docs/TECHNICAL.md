@@ -91,6 +91,16 @@ shell **uid `shell`**, que lanza el binario del puente. Funciona en cualquier m�
 Flujo: `adb start-server` → `adb pair IP:puerto código` (una vez) → `adb connect
 IP:puerto` → `adb -s IP:puerto shell <binario del puente>`.
 
+**Funcionar SIN WiFi (datos móviles):** el adbd de la depuración inalámbrica se
+ata a la **IP de la WiFi**, así que conectar por `127.0.0.1` no funciona y sin WiFi
+no hay IP. Solución: tras vincular (con WiFi, una vez), la app ejecuta
+**`adb tcpip 5555`**, que reinicia adbd escuchando en **todas las interfaces
+(`0.0.0.0`/`[::]`, loopback incluido)**. Desde entonces la app conecta por
+**`127.0.0.1:5555`** y funciona con **datos móviles, sin ninguna WiFi**. El modo TCP
+persiste hasta reiniciar (de ahí lo de dejar el móvil siempre encendido). Nota de
+seguridad: ese puerto escucha en todas las interfaces, pero sigue requiriendo
+autorización de llave (RSA), y con datos móviles es en la práctica solo-loopback.
+
 ## 7. Obstáculos resueltos (gotchas)
 
 Lista para ahorrarte el dolor si lo replicas:
