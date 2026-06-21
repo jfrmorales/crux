@@ -112,5 +112,13 @@ conservan sus respectivas licencias.
 ## Aviso
 
 Proyecto personal/comunitario, sin relación con Cheerdots, Kodi, VITURE ni
-ninguna marca. Úsalo bajo tu responsabilidad. La depuración inalámbrica da acceso
-`shell` al dispositivo: actívala solo en redes de confianza.
+ninguna marca. Úsalo bajo tu responsabilidad.
+
+**Sobre la seguridad de la depuración inalámbrica:** hace que el `adbd` del móvil
+escuche en su IP de la **red local (WiFi)**, pero está protegido por
+**emparejamiento con código** (requiere ver la pantalla del móvil) y **TLS con
+llave autorizada**: solo los dispositivos que **ya emparejaste** pueden conectar —
+nadie más de la red, aunque vea el puerto. En tu **WiFi de casa** el riesgo es
+insignificante; en una **WiFi pública/compartida** la única consideración es que
+queda un servicio de depuración visible en esa red (sigue sin ser accesible sin
+emparejar). Además **se desactiva sola al reiniciar** el móvil.
