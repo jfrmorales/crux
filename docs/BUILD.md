@@ -3,7 +3,8 @@
 ## Requisitos
 - **JDK 17**
 - **Android SDK** (compileSdk 35, build-tools 35) y **NDK** (probado con 28.2)
-- **Gradle 8.14** (o el wrapper)
+- **Gradle 8.14.3** (lo fija el wrapper), **AGP 8.7.2** y **Kotlin 1.9.24** (ya pineados
+  en `build.gradle.kts` / `gradle-wrapper.properties`)
 - Dispositivo arm64 (la app empaqueta binarios `arm64-v8a`)
 
 ## 1. Binario del puente (`libbridge.so`)
