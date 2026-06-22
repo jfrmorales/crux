@@ -1,6 +1,7 @@
 # Android build
 app-android/build/
 app-android/app/build/
+app-android/wear/build/
 app-android/.gradle/
 app-android/local.properties
 app-android/.idea/
