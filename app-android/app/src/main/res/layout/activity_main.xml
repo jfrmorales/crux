@@ -13,7 +13,7 @@
         <!-- CABECERA -->
         <TextView
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Kodi Control" android:textSize="26sp" android:textStyle="bold" />
+            android:text="Crux" android:textSize="26sp" android:textStyle="bold" />
         <TextView
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:text="Mando de Kodi sin cursor: con el CheerTok y con el reloj (Wear OS)."

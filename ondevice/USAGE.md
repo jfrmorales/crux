@@ -1,4 +1,4 @@
-# Cómo activar el mando CheerTok → Kodi (OPPO y Samsung, sin PC)
+# Activar el mando del CheerTok para Kodi — variante en scripts (OPPO y Samsung, sin PC)
 
 El puente vive en 3 ficheros dentro del móvil (`/data/local/tmp/`):
 `evgrab` (oculta el cursor agarrando el CheerTok), `bridge_num.awk` (traduce a

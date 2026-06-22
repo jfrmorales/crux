@@ -1,7 +1,9 @@
-# CheerTok → Kodi
+# Crux
 
-**Convierte un touchpad-mando Bluetooth [CheerTok Air](https://cheerdots.com/) en un
-mando de cruceta para [Kodi](https://kodi.tv/), sin cursor y sin root.**
+**Mando de cruceta para [Kodi](https://kodi.tv/) (app no oficial, sin relación con el
+proyecto Kodi).** Convierte un touchpad-mando Bluetooth [CheerTok Air](https://cheerdots.com/)
+en un mando de cruceta para Kodi, sin cursor y sin root — y además trae un mando para el
+**reloj (Wear OS)**.
 
 Un solo gesto = una acción de Kodi: deslizas y la selección se mueve, tocas y
 entra, los botones hacen Atrás/Inicio, y los botones libres puedes asignarlos a lo
@@ -103,7 +105,7 @@ Detalles, decisiones y montaje en **[docs/WATCH.md](docs/WATCH.md)**.
 1. **Kodi** → Ajustes → Servicios → Control → activar control HTTP (puerto 8080,
    usuario/contraseña `kodi`/`kodi`).
 2. Empareja el **CheerTok** por Bluetooth.
-3. Instala **`KodiControl.apk`** (incluye también la app del reloj).
+3. Instala **`Crux.apk`** (incluye también la app del reloj).
 4. Abre la app y sigue **[docs/SETUP.md](docs/SETUP.md)** (vincular una vez por
    depuración inalámbrica → luego Iniciar/Parar).
 
