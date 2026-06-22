@@ -21,8 +21,9 @@ propio móvil para obtener los permisos que hacen falta.
   por Bluetooth con el móvil.
 
 ## 3. Instalar la app
-- Copia **`Crux.apk`** al móvil e instálalo (permite «instalar apps
-  desconocidas» si lo pide). Incluye también la app del reloj.
+- Descarga **[`Crux.apk`](https://github.com/jfrmorales/crux/releases/latest/download/Crux.apk)** desde la
+  [última release](https://github.com/jfrmorales/crux/releases/latest), cópialo al móvil e instálalo (permite
+  «instalar apps desconocidas» si lo pide). Incluye también la app del reloj.
 
 ## 4. Vincular por depuración inalámbrica (una vez)
 1. **Ajustes → Acerca del teléfono → Información de software** → toca **«Número de

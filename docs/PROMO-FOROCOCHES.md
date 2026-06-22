@@ -62,7 +62,8 @@ usáis, que me viene bien para mejorarlo.
 ## Notas de uso del hilo (no copiar al foro)
 
 - **Sustituye `[ENLACE]`** por la URL del repo de GitHub o, si prefieres no exponer
-  el repo, por un enlace directo al `Crux.apk`. Ojo: el README del repo cuenta la
+  el repo, por el enlace directo al APK de la última release
+  (`https://github.com/jfrmorales/crux/releases/latest/download/Crux.apk`). Ojo: el README del repo cuenta la
   historia personal (padre, diálisis, marca de las gafas) — si enlazas el repo, eso
   queda público. Decide si quieres ese nivel de detalle o si recortas el README
   antes de compartirlo.

@@ -105,7 +105,8 @@ Detalles, decisiones y montaje en **[docs/WATCH.md](docs/WATCH.md)**.
 1. **Kodi** → Ajustes → Servicios → Control → activar control HTTP (puerto 8080,
    usuario/contraseña `kodi`/`kodi`).
 2. Empareja el **CheerTok** por Bluetooth.
-3. Instala **`Crux.apk`** (incluye también la app del reloj).
+3. Descarga e instala **[`Crux.apk`](https://github.com/jfrmorales/crux/releases/latest/download/Crux.apk)** desde la
+   [última release](https://github.com/jfrmorales/crux/releases/latest) (incluye también la app del reloj).
 4. Abre la app y sigue **[docs/SETUP.md](docs/SETUP.md)** (vincular una vez por
    depuración inalámbrica → luego Iniciar/Parar).
 
