@@ -8,7 +8,9 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -28,6 +30,13 @@ class BridgeService : Service() {
     @Volatile private var openKodi = false
     @Volatile private var wasConnected = false
 
+    // Temporizador de inactividad: si el CheerTok no se agarra durante IDLE_TIMEOUT_MS
+    // (uso típico: se controla por el reloj), el servicio se autodetiene para soltar ADB,
+    // el proceso remoto y el foreground service, y dejar que el móvil entre en reposo.
+    private val main = Handler(Looper.getMainLooper())
+    private val idleStop = Runnable { idleShutdown() }
+    private var idleArmed = false
+
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -41,7 +50,33 @@ class BridgeService : Service() {
         startForeground(NOTIF_ID, buildNotification("Conectando…", false))
         stopBridge()  // si llega un nuevo arranque (p. ej. cambió la config), reinicia
         startBridge(connAddr, bridgeCmd, adbPath)
-        return START_STICKY
+        armIdleTimer()  // arranca "desconectado": cuenta atrás hasta tener un CheerTok
+        // START_NOT_STICKY: no se resucita con intent nulo (que dejaría un FGS zombi sin
+        // rearrancar el puente). El usuario reactiva con «Iniciar» cuando quiera el CheerTok.
+        return START_NOT_STICKY
+    }
+
+    /** Arma la cuenta atrás de inactividad al entrar en estado desconectado. Idempotente:
+     *  el puente nativo repite "esperando CheerTok" cada 2 s, así que NO se debe resetear
+     *  en cada línea (si no, nunca dispararía); solo cuenta desde la primera. */
+    private fun armIdleTimer() {
+        if (idleArmed) return
+        idleArmed = true
+        main.postDelayed(idleStop, IDLE_TIMEOUT_MS)
+    }
+
+    /** Cancela la cuenta atrás. Se llama al agarrar el CheerTok (READY) y al parar. */
+    private fun cancelIdleTimer() {
+        idleArmed = false
+        main.removeCallbacks(idleStop)
+    }
+
+    /** Sin CheerTok durante el umbral: suelta todo y para el servicio. */
+    private fun idleShutdown() {
+        idleArmed = false
+        update("⏸️ En pausa por inactividad", false)
+        stopBridge()
+        stopSelf()
     }
 
     private fun startBridge(connAddr: String, bridgeCmd: String, adbPath: String) {
@@ -52,25 +87,39 @@ class BridgeService : Service() {
             val adb = AdbWireless(this, adbPath)
             val hp = parseAddr(connAddr)
             if (hp == null) { update("dirección de conexión inválida", false); return@Thread }
-            // Bucle resistente: si la conexión adb se cae, reconecta y relanza.
+            // Bucle resistente: si la conexión adb se cae, reconecta y relanza. Para no
+            // martillear adb cada pocos segundos cuando no hay conexión (sin WiFi, sin
+            // tcpip), espera con backoff exponencial con tope; se resetea tras un READY.
+            var backoffMs = BACKOFF_MIN_MS
             while (running) {
-                adb.startServer()
-                if (!adb.connect(hp)) { update("no conecta (¿vinculado? ¿WiFi?)", false); sleep(3000); continue }
+                if (!adb.connect(hp)) {
+                    // El servidor adb pudo no estar arrancado: levántalo y reintenta una vez.
+                    adb.startServer()
+                    if (!adb.connect(hp)) {
+                        update("no conecta (¿vinculado? ¿WiFi?)", false)
+                        sleep(backoffMs); backoffMs = nextBackoff(backoffMs); continue
+                    }
+                }
                 val p = adb.runBridge(hp, bridgeCmd)
                 proc = p
-                if (p == null) { update("no arrancó el puente", false); sleep(3000); continue }
+                if (p == null) {
+                    update("no arrancó el puente", false)
+                    sleep(backoffMs); backoffMs = nextBackoff(backoffMs); continue
+                }
                 try {
                     BufferedReader(InputStreamReader(p.inputStream)).useLines { lines ->
-                        for (line in lines) parseLine(line)
+                        for (line in lines) { parseLine(line); backoffMs = BACKOFF_MIN_MS }
                     }
                 } catch (e: Exception) {}
                 proc = null
-                if (running) { update("⚠️ conexión perdida — reconectando…", false); sleep(2000) }
+                if (running) { update("⚠️ conexión perdida — reconectando…", false); sleep(backoffMs); backoffMs = nextBackoff(backoffMs) }
             }
         }.apply { isDaemon = true; start() }
     }
 
     private fun sleep(ms: Long) = try { Thread.sleep(ms) } catch (e: InterruptedException) {}
+
+    private fun nextBackoff(ms: Long) = (ms * 2).coerceAtMost(BACKOFF_MAX_MS)
 
     private fun parseLine(line: String) {
         when {
@@ -78,10 +127,11 @@ class BridgeService : Service() {
                 // Transición desconectado → conectado: abre Kodi si está activado.
                 if (!wasConnected && openKodi) launchKodi()
                 wasConnected = true
+                main.post { cancelIdleTimer() }  // hay mando: no autodetener
                 update("🎮 Mando conectado", true)
             }
-            line.contains("esperando CheerTok") -> { wasConnected = false; update("⚠️ Mando desconectado — esperando…", false) }
-            line.contains("desconectado") -> { wasConnected = false; update("⚠️ Mando desconectado — reconectando…", false) }
+            line.contains("esperando CheerTok") -> { wasConnected = false; main.post { armIdleTimer() }; update("⚠️ Mando desconectado — esperando…", false) }
+            line.contains("desconectado") -> { wasConnected = false; main.post { armIdleTimer() }; update("⚠️ Mando desconectado — reconectando…", false) }
         }
     }
 
@@ -97,6 +147,7 @@ class BridgeService : Service() {
 
     private fun stopBridge() {
         running = false
+        cancelIdleTimer()
         proc?.destroy(); proc = null
         worker = null
         connected = false; statusText = "parado"
@@ -156,6 +207,11 @@ class BridgeService : Service() {
         const val NOTIF_ID = 1
         const val ACTION_STOP = "org.cheertok.kodibridge.STOP"
         const val KODI_PKG = "org.xbmc.kodi"
+        // Auto-parada: sin CheerTok agarrado durante este tiempo → soltar ADB y parar.
+        const val IDLE_TIMEOUT_MS = 15 * 60 * 1000L
+        // Backoff de reconexión: empieza en 3 s y dobla hasta 60 s.
+        const val BACKOFF_MIN_MS = 3000L
+        const val BACKOFF_MAX_MS = 60000L
         // Estado compartido que la UI lee para mostrarlo.
         @Volatile var statusText: String = "parado"
         @Volatile var connected: Boolean = false

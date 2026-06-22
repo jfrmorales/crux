@@ -8,119 +8,251 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="16dp">
 
+        <!-- CABECERA -->
         <TextView
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="CheerTok → Kodi" android:textSize="24sp" android:textStyle="bold" />
+            android:text="Kodi Control" android:textSize="26sp" android:textStyle="bold" />
         <TextView
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Convierte el CheerTok en mando de Kodi, sin cursor."
-            android:textSize="13sp" android:paddingBottom="16dp" />
+            android:text="Mando de Kodi sin cursor: con el CheerTok y con el reloj (Wear OS)."
+            android:textSize="13sp" android:paddingBottom="14dp" />
 
         <!-- ESTADO -->
         <TextView
             android:id="@+id/status"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:background="#11000000" android:padding="14dp"
+            android:background="#11808080" android:padding="14dp"
             android:fontFamily="monospace" android:textSize="13sp"
+            android:layout_marginBottom="14dp"
             android:text="Estado: iniciando…" />
 
-        <!-- ENCENDER (inalámbrico, sin Shizuku) -->
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Encender" android:textStyle="bold" android:textSize="16sp"
-            android:paddingTop="16dp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Funciona en cualquier móvil (OPPO o Samsung), sin instalar nada más. Solo la primera vez tras encender el móvil."
-            android:textSize="12sp" android:paddingBottom="6dp" />
+        <!-- ============ SECCIÓN: PUENTE DEL CHEERTOK ============ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@drawable/card_bg"
+            android:padding="16dp" android:layout_marginBottom="14dp">
 
-        <Button android:id="@+id/btnOpenWdb" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Abrir Depuración inalámbrica" style="?android:attr/buttonBarButtonStyle" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Copia la «IP y puerto» de la pantalla principal de Depuración inalámbrica (la de conexión):"
-            android:textSize="12sp" android:paddingTop="4dp" />
-        <EditText android:id="@+id/edtConnAddr" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="IP:puerto de conexión (ej. 192.168.1.185:46853)" android:inputType="text" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="📶  Puente del CheerTok" android:textStyle="bold" android:textSize="17sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Conecta el touchpad CheerTok con Kodi. Funciona en cualquier móvil, sin instalar nada más."
+                android:textSize="12sp" android:paddingTop="2dp" android:paddingBottom="6dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="🔋 Solo es necesario si usas el touchpad CheerTok. El mando del reloj funciona sin iniciar el puente. Mantenerlo activo consume batería (conexión ADB), así que párelo cuando no uses el CheerTok; además se autodetiene tras 15 min sin actividad."
+                android:textSize="12sp" android:textStyle="italic" android:paddingBottom="10dp" />
 
-        <!-- Uso diario: una vez vinculado, solo Iniciar/Parar -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <Button android:id="@+id/btnStart" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:text="▶ Iniciar" />
-            <Button android:id="@+id/btnStop" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:text="■ Parar" />
-        </LinearLayout>
-        <CheckBox android:id="@+id/chkOpenKodi" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Abrir Kodi automáticamente al conectar el mando" android:paddingTop="4dp" />
+            <!-- Uso diario -->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Uso diario" android:textStyle="bold" android:textSize="13sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Aquí la conexión y el emparejamiento son los de la Depuración inalámbrica de ESTE móvil (no confundir con la del reloj, más abajo)."
+                android:textSize="12sp" android:textStyle="italic" android:paddingTop="2dp" android:paddingBottom="2dp" />
+            <Button android:id="@+id/btnOpenWdb" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Abrir Depuración inalámbrica de este móvil" style="?android:attr/buttonBarButtonStyle" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Pon la «IP y puerto» de la pantalla principal de Depuración inalámbrica (la de conexión) y pulsa Iniciar. La app activa el modo sin-WiFi y cambia el campo solo a 127.0.0.1:5555. Después, día a día, basta con Iniciar. (Tras reiniciar el móvil, vuelve a poner la IP real y pulsa Iniciar.)"
+                android:textSize="12sp" android:paddingTop="4dp" />
+            <EditText android:id="@+id/edtConnAddr" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="IP:puerto de conexión (ej. 192.168.1.185:46853)" android:inputType="text" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnStart" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="▶ Iniciar" />
+                <Button android:id="@+id/btnStop" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="■ Parar" />
+            </LinearLayout>
+            <CheckBox android:id="@+id/chkOpenKodi" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Abrir Kodi automáticamente al conectar el mando" android:paddingTop="4dp" />
 
-        <!-- Primera vez: vincular (una sola vez) -->
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Primera vez: vincular (solo una vez). Entra en «Vincular dispositivo con código», y copia SU IP:puerto y el código. Truco OPPO: usa pantalla dividida para que no se cierre el recuadro."
-            android:textSize="12sp" android:paddingTop="10dp" />
-        <EditText android:id="@+id/edtPairAddr" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="IP:puerto de emparejamiento (ej. 192.168.1.185:42197)" android:inputType="text" />
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <EditText android:id="@+id/edtCode" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:hint="código 6 dígitos" android:inputType="number" android:maxLength="6" />
-            <Button android:id="@+id/btnPair" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:text="Vincular" style="?android:attr/buttonBarButtonStyle" />
-        </LinearLayout>
+            <!-- Separador interno -->
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#22808080" android:layout_marginVertical="12dp" />
 
-        <!-- ATAJOS -->
-        <View android:layout_width="match_parent" android:layout_height="1dp"
-            android:background="#22000000" android:layout_marginVertical="16dp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Atajos de los botones laterales" android:textStyle="bold" android:textSize="16sp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Los botones VOL + / VOL − están libres (el volumen lo llevan las gafas). Asígnales lo que quieras: por ejemplo, abrir Palantir."
-            android:textSize="12sp" android:paddingBottom="6dp" />
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Botón VOL +" android:textStyle="bold" android:paddingTop="6dp" />
-        <Spinner android:id="@+id/spVolUp" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        <TextView android:id="@+id/lblVolUpAddon" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:textSize="12sp" android:textStyle="italic" android:visibility="gone" />
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Botón VOL −" android:textStyle="bold" android:paddingTop="10dp" />
-        <Spinner android:id="@+id/spVolDown" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        <TextView android:id="@+id/lblVolDownAddon" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:textSize="12sp" android:textStyle="italic" android:visibility="gone" />
-
-        <!-- AVANZADO -->
-        <View android:layout_width="match_parent" android:layout_height="1dp"
-            android:background="#22000000" android:layout_marginVertical="16dp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Avanzado" android:textStyle="bold" android:textSize="16sp" />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Alternativa: Shizuku (si lo tienes activado)" android:textSize="12sp" android:paddingTop="6dp" />
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <Button android:id="@+id/btnShizuku" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:text="Permiso" style="?android:attr/buttonBarButtonStyle" />
-            <Button android:id="@+id/btnStartShizuku" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:text="Encender (Shizuku)" style="?android:attr/buttonBarButtonStyle" />
+            <!-- Primera vez -->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Primera vez: vincular este móvil (solo una vez)" android:textStyle="bold" android:textSize="13sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="En la Depuración inalámbrica de ESTE móvil, entra en «Vincular dispositivo con código», copia SU IP:puerto y el código. Truco OPPO: usa pantalla dividida para que no se cierre el recuadro."
+                android:textSize="12sp" android:paddingTop="2dp" />
+            <EditText android:id="@+id/edtPairAddr" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="IP:puerto de emparejamiento (ej. 192.168.1.185:42197)" android:inputType="text" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <EditText android:id="@+id/edtCode" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:hint="código 6 dígitos" android:inputType="number" android:maxLength="6" />
+                <Button android:id="@+id/btnPair" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Vincular" style="?android:attr/buttonBarButtonStyle" />
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Sensibilidad (mayor = menos sensible)" android:textSize="12sp" android:paddingTop="6dp" />
-        <EditText android:id="@+id/step" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="160" android:inputType="number" />
+        <!-- ============ SECCIÓN: BOTONES DEL CHEERTOK ============ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@drawable/card_bg"
+            android:padding="16dp" android:layout_marginBottom="14dp">
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Conexión con Kodi (normalmente no se toca)" android:textSize="12sp" android:paddingTop="6dp" />
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <EditText android:id="@+id/host" android:layout_width="0dp" android:layout_weight="2"
-                android:layout_height="wrap_content" android:hint="host" android:text="127.0.0.1" android:inputType="text" />
-            <EditText android:id="@+id/port" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:hint="puerto" android:text="8080" android:inputType="number" />
-        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <EditText android:id="@+id/user" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:hint="usuario" android:text="kodi" android:inputType="text" />
-            <EditText android:id="@+id/pass" android:layout_width="0dp" android:layout_weight="1"
-                android:layout_height="wrap_content" android:hint="contraseña" android:text="kodi" android:inputType="text" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="🎛️  Botones del CheerTok" android:textStyle="bold" android:textSize="17sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Los botones VOL + / VOL − están libres (el volumen lo llevan las gafas). Asígnales lo que quieras: por ejemplo, abrir Palantir."
+                android:textSize="12sp" android:paddingTop="2dp" android:paddingBottom="8dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Botón VOL +" android:textStyle="bold" />
+            <Spinner android:id="@+id/spVolUp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/lblVolUpAddon" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="12sp" android:textStyle="italic" android:visibility="gone" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Botón VOL −" android:textStyle="bold" android:paddingTop="10dp" />
+            <Spinner android:id="@+id/spVolDown" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/lblVolDownAddon" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="12sp" android:textStyle="italic" android:visibility="gone" />
         </LinearLayout>
 
+        <!-- ============ SECCIÓN: MANDO DEL RELOJ ============ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@drawable/card_bg"
+            android:padding="16dp" android:layout_marginBottom="14dp">
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="⌚  Mando del reloj (Wear OS)" android:textStyle="bold" android:textSize="17sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="🔋 La opción que menos batería gasta. No usa el puente del CheerTok."
+                android:textSize="12sp" android:textStyle="italic" android:paddingTop="2dp" android:paddingBottom="8dp" />
+
+            <!-- Uso normal: deja claro que el día a día NO necesita IP ni emparejamiento -->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Uso normal" android:textStyle="bold" android:textSize="13sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="El reloj se conecta al móvil solo por Bluetooth, automáticamente. Para usarlo NO hay que poner ninguna IP ni emparejar nada (eso es únicamente para instalar su app, más abajo). Solo necesita: (1) su app instalada en el reloj y (2) los datos de «Conexión con Kodi» de más abajo."
+                android:textSize="12sp" android:paddingTop="2dp" android:paddingBottom="8dp" />
+
+            <!-- Botón OK (configuración del día a día) -->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Botón OK" android:textStyle="bold" android:textSize="13sp" android:paddingTop="2dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Un toque = Entrar. El doble y el triple toque hacen lo que elijas aquí."
+                android:textSize="12sp" android:paddingBottom="6dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="OK · doble toque" android:textStyle="bold" />
+            <Spinner android:id="@+id/spOkDouble" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/lblOkDoubleAddon" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="12sp" android:textStyle="italic" android:visibility="gone" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="OK · triple toque" android:textStyle="bold" android:paddingTop="10dp" />
+            <Spinner android:id="@+id/spOkTriple" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/lblOkTripleAddon" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="12sp" android:textStyle="italic" android:visibility="gone" />
+
+            <!-- Separador interno -->
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#22808080" android:layout_marginVertical="12dp" />
+
+            <!-- Aviso de actualización (siempre visible si procede; al aparecer abre el bloque de instalar) -->
+            <TextView android:id="@+id/lblWatchUpdate" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:visibility="gone" android:textSize="12sp" android:textStyle="bold"
+                android:background="#33FFC107" android:padding="10dp" android:layout_marginBottom="8dp" />
+
+            <!-- Cabecera colapsable: instalar/actualizar (avanzado, NO es el uso diario) -->
+            <TextView android:id="@+id/tvInstallWatchHeader" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="▸  Instalar / actualizar la app del reloj  (1ª vez o al actualizar)"
+                android:textStyle="bold" android:textSize="13sp" android:paddingVertical="6dp" />
+
+            <!-- Bloque colapsable de instalación (oculto por defecto) -->
+            <LinearLayout android:id="@+id/boxInstallWatch" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:visibility="gone">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Esto NO es para el uso diario. Solo hace falta la primera vez (y al actualizar). Usa la Depuración inalámbrica DEL RELOJ (la del propio reloj, no la de este móvil)."
+                    android:textSize="12sp" android:paddingBottom="4dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="No hace falta iniciar el puente del CheerTok: «Instalar en reloj» arranca su propio ADB y va directo al reloj."
+                    android:textSize="12sp" android:textStyle="italic" android:paddingBottom="6dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Antes: en el RELOJ activa Ajustes → Sistema → Opciones de desarrollador → Depuración inalámbrica (reloj y móvil en la misma WiFi)."
+                    android:textSize="12sp" android:paddingBottom="8dp" />
+
+                <!-- Paso 1: VINCULAR — solo necesita el emparejamiento, NO la conexión -->
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Paso 1 · Vincular el reloj (solo la 1ª vez)" android:textStyle="bold" android:textSize="13sp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="En el reloj entra en «Vincular dispositivo con código»: te da una IP:puerto de emparejamiento y un código de 6 dígitos. Para esto NO hace falta la IP de conexión."
+                    android:textSize="12sp" android:paddingTop="2dp" android:paddingBottom="4dp" />
+                <EditText android:id="@+id/edtWatchPair" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:hint="Reloj · IP:puerto de EMPAREJAMIENTO" android:inputType="text" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <EditText android:id="@+id/edtWatchCode" android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="wrap_content" android:hint="código de 6 dígitos" android:inputType="number" android:maxLength="6" />
+                    <Button android:id="@+id/btnPairWatch" android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="wrap_content" android:text="Vincular reloj" style="?android:attr/buttonBarButtonStyle" />
+                </LinearLayout>
+
+                <!-- Separador interno -->
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="#22808080" android:layout_marginVertical="10dp" />
+
+                <!-- Paso 2: INSTALAR — solo necesita la conexión -->
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Paso 2 · Instalar / actualizar" android:textStyle="bold" android:textSize="13sp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="En la pantalla principal de la Depuración inalámbrica del reloj sale la IP:puerto de conexión. Una vez vinculado (Paso 1), para actualizar en el futuro basta con esto."
+                    android:textSize="12sp" android:paddingTop="2dp" android:paddingBottom="4dp" />
+                <EditText android:id="@+id/edtWatchConn" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:hint="Reloj · IP:puerto de CONEXIÓN (ej. 192.168.1.180:34777)" android:inputType="text" />
+                <Button android:id="@+id/btnInstallWatch" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Instalar en reloj" style="?android:attr/buttonBarButtonStyle" />
+                <ProgressBar android:id="@+id/watchProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:indeterminate="true" android:visibility="gone" android:paddingTop="6dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ============ SECCIÓN: CONEXIÓN CON KODI ============ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@drawable/card_bg"
+            android:padding="16dp" android:layout_marginBottom="14dp">
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="📺  Conexión con Kodi" android:textStyle="bold" android:textSize="17sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Datos del control remoto HTTP de Kodi. Normalmente no se tocan."
+                android:textSize="12sp" android:paddingTop="2dp" android:paddingBottom="6dp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <EditText android:id="@+id/host" android:layout_width="0dp" android:layout_weight="2"
+                    android:layout_height="wrap_content" android:hint="host" android:text="127.0.0.1" android:inputType="text" />
+                <EditText android:id="@+id/port" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:hint="puerto" android:text="8080" android:inputType="number" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <EditText android:id="@+id/user" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:hint="usuario" android:text="kodi" android:inputType="text" />
+                <EditText android:id="@+id/pass" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:hint="contraseña" android:text="kodi" android:inputType="text" />
+            </LinearLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Sensibilidad del CheerTok (mayor = menos sensible)" android:textSize="12sp" android:paddingTop="8dp" />
+            <EditText android:id="@+id/step" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="160" android:inputType="number" />
+        </LinearLayout>
+
+        <!-- ============ SECCIÓN: AVANZADO ============ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@drawable/card_bg"
+            android:padding="16dp" android:layout_marginBottom="14dp">
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="⚙️  Avanzado" android:textStyle="bold" android:textSize="17sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Alternativa: Shizuku (si lo tienes activado)." android:textSize="12sp"
+                android:paddingTop="2dp" android:paddingBottom="4dp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnShizuku" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Permiso" style="?android:attr/buttonBarButtonStyle" />
+                <Button android:id="@+id/btnStartShizuku" android:layout_width="0dp" android:layout_weight="1"
+                    android:layout_height="wrap_content" android:text="Encender (Shizuku)" style="?android:attr/buttonBarButtonStyle" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- GUARDAR -->
         <Button android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" android:text="GUARDAR Y APLICAR" />
+            android:layout_marginBottom="8dp" android:text="GUARDAR Y APLICAR" />
 
     </LinearLayout>
 </ScrollView>

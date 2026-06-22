@@ -26,6 +26,12 @@ class AdbWireless(private val ctx: Context, private val adbPath: String) {
 
     data class HostPort(val host: String, val port: Int)
 
+    /** Salida cruda del último pair/connect, para poder mostrar el error real de adb
+     *  (p. ej. "Connection refused", "failed to authenticate", "timed out") en vez de un
+     *  mensaje genérico. */
+    @Volatile var lastOutput: String = ""
+        private set
+
     /** Env común: HOME propio (clave adb), puerto de servidor adb EXCLUSIVO de la
      *  app (evita colisiones con cualquier otro adb), y mDNS desactivado en el
      *  cliente (en Android falla y rompe el `pair`). */
@@ -59,12 +65,14 @@ class AdbWireless(private val ctx: Context, private val adbPath: String) {
     fun pair(hp: HostPort, code: String): Boolean {
         val (_, out) = run("pair", "${hp.host}:${hp.port}", code, timeoutMs = 20000)
         Log.i(TAG, "pair -> $out")
+        lastOutput = out.trim()
         return out.contains("Successfully paired")
     }
 
     fun connect(hp: HostPort): Boolean {
         val (_, out) = run("connect", "${hp.host}:${hp.port}", timeoutMs = 12000)
         Log.i(TAG, "connect -> $out")
+        lastOutput = out.trim()
         return out.contains("connected to")
     }
 
@@ -77,6 +85,14 @@ class AdbWireless(private val ctx: Context, private val adbPath: String) {
         val (_, out) = run("-s", "${current.host}:${current.port}", "tcpip", port.toString(), timeoutMs = 8000)
         Log.i(TAG, "tcpip -> $out")
         return out.contains("restarting in TCP mode")
+    }
+
+    /** Instala (o actualiza, -r) un APK en el dispositivo conectado. Para instalar la
+     *  app del reloj desde el móvil reutilizando este mismo adb. */
+    fun install(hp: HostPort, apkPath: String): Pair<Boolean, String> {
+        val (_, out) = run("-s", "${hp.host}:${hp.port}", "install", "-r", apkPath, timeoutMs = 180000)
+        Log.i(TAG, "install -> $out")
+        return out.contains("Success") to out.trim()
     }
 
     /** Lanza el puente por la shell remota; Process de larga vida (lee stdout). */

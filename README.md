@@ -75,12 +75,35 @@ pero integrado, así no hace falta instalar nada más ni usar Shizuku.
 > son **VOL + / VOL −** (códigos 115/114), que además quedan libres si el volumen lo
 > llevan las gafas.
 
+## Mando desde el reloj (Wear OS) ⌚
+
+Además del CheerTok, hay un **segundo mando**: una app para el **reloj** (probada en
+**OPPO Watch X2**, vale para cualquier Wear OS con Google Play Services) que dibuja una
+**cruceta a pantalla completa** y manda las órdenes a Kodi **a través del móvil por
+Bluetooth** (Wear Data Layer) — **sin WiFi, sin root, sin ADB**.
+
+- 🕹️ **Cruceta circular** que aprovecha toda la esfera (4 sectores + OK central).
+- 🎛️ **Corona** para subir/bajar listas; **mantener pulsado OK** cambia el eje a
+  horizontal (↕/↔).
+- 🎯 **OK con gestos configurables**: un toque = entrar; **doble y triple toque** hacen lo
+  que elijas desde la app del móvil (Atrás, Inicio, OSD, menú, abrir addon…).
+- 📃 **Segunda pantalla** (deslizar) con Atrás, Inicio, Play/Pausa, **OSD**, **Abrir
+  Kodi** y un atajo a addon (Palantir).
+- 📲 **Se instala en el reloj desde el propio móvil**: el APK del reloj va dentro de la app
+  y se instala por la depuración inalámbrica del reloj (sin PC, sin Play Store).
+- 🔌 Reutiliza el mismo `KodiClient`; el reloj solo envía los tokens que Kodi ya entiende.
+- 🔋 **Es el modo que menos batería gasta**: es *event-driven* (sin servicio en primer
+  plano ni ADB). Si usas sobre todo el reloj, **deja el puente del CheerTok parado**; si lo
+  inicias, se autodetiene tras 15 min sin actividad del CheerTok.
+
+Detalles, decisiones y montaje en **[docs/WATCH.md](docs/WATCH.md)**.
+
 ## Instalación rápida
 
 1. **Kodi** → Ajustes → Servicios → Control → activar control HTTP (puerto 8080,
    usuario/contraseña `kodi`/`kodi`).
 2. Empareja el **CheerTok** por Bluetooth.
-3. Instala **`CheerTok-Kodi.apk`**.
+3. Instala **`KodiControl.apk`** (incluye también la app del reloj).
 4. Abre la app y sigue **[docs/SETUP.md](docs/SETUP.md)** (vincular una vez por
    depuración inalámbrica → luego Iniciar/Parar).
 
@@ -101,6 +124,9 @@ pero integrado, así no hace falta instalar nada más ni usar Shizuku.
   HID del CheerTok, ocultar el cursor, el adb-inalámbrico, y todos los obstáculos
   resueltos (Shizuku/ColorOS, fdsan, etc.).
 - **[docs/BUILD.md](docs/BUILD.md)** — cómo compilar la app y los binarios.
+- **[docs/WATCH.md](docs/WATCH.md)** — el mando del reloj (Wear OS) y su instalación.
+- **[docs/PUBLICAR-EN-PLAY.md](docs/PUBLICAR-EN-PLAY.md)** — instalar la app del reloj **sin
+  ADB**, por la vía oficial de Google Play (recomendado para el usuario final).
 
 ## Créditos y licencias
 

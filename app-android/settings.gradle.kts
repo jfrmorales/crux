@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CheerTokKodi"
 include(":app")
+include(":wear")
