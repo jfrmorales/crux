@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "CheerTokKodi"
+rootProject.name = "Crux"
 include(":app")
 include(":wear")
