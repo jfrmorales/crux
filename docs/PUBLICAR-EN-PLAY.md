@@ -80,7 +80,7 @@ Cuando se aborde la migración, esto es lo que hay que tocar:
 
 ## 4. Pasos en Play Console (resumen)
 
-1. **Crear la app** en Play Console (nombre «Kodi Control», idioma, tipo *app*, gratuita).
+1. **Crear la app** en Play Console (nombre «Crux», idioma, tipo *app*, gratuita).
 2. **Activar Play App Signing** (al subir el primer AAB).
 3. **Generar los AAB** de móvil y reloj (`bundleRelease`) y subirlos a la **pista de prueba
    interna**.
@@ -88,7 +88,7 @@ Cuando se aborde la migración, esto es lo que hay que tocar:
    privacidad, público objetivo.
 5. **Añadir testers**: la cuenta Google del reloj (y la del móvil) en la lista de la pista
    interna; aceptar la invitación desde el enlace de *opt-in*.
-6. En el **reloj**: abrir **Play Store → buscar «Kodi Control» → Instalar**. Para
+6. En el **reloj**: abrir **Play Store → buscar «Crux» → Instalar**. Para
    **actualizar** en el futuro: Play lo hace solo o desde Play Store del reloj. **Sin ADB.**
 
 ---

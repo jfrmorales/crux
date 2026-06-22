@@ -21,7 +21,7 @@ propio móvil para obtener los permisos que hacen falta.
   por Bluetooth con el móvil.
 
 ## 3. Instalar la app
-- Copia **`KodiControl.apk`** al móvil e instálalo (permite «instalar apps
+- Copia **`Crux.apk`** al móvil e instálalo (permite «instalar apps
   desconocidas» si lo pide). Incluye también la app del reloj.
 
 ## 4. Vincular por depuración inalámbrica (una vez)

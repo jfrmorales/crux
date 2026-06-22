@@ -175,7 +175,7 @@ class BridgeService : Service() {
         )
         val icon = if (conn) android.R.drawable.ic_media_play else android.R.drawable.stat_sys_warning
         return Notification.Builder(this, CHANNEL)
-            .setContentTitle("CheerTok → Kodi")
+            .setContentTitle("Crux")
             .setContentText(text)
             .setSmallIcon(icon)
             .setContentIntent(open)
