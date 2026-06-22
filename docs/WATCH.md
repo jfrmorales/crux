@@ -214,7 +214,7 @@ adb -s <IP-RELOJ>:<PUERTO-CONEXIÓN> install -r app-android/wear/build/outputs/a
 > desde la misma máquina con la clave debug, ya cumple. Si las firmas difieren, los
 > mensajes del Data Layer **se pierden en silencio** (sin error).
 
-Luego, en el reloj, abre la app **"Kodi"**. El punto/OK azul indica que ve al móvil.
+Luego, en el reloj, abre la app **«Kodi Control»**. El punto/OK azul indica que ve al móvil.
 
 ---
 
